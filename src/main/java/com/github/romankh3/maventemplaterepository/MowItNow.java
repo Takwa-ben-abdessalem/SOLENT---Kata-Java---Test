@@ -10,10 +10,10 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MavenTemplateRepository {
+public class MowItNow {
 
 	private static final String DEFAULT_FILE_PATH = "src/main/resources/input.txt";
-	private static final Logger LOGGER = Logger.getLogger(MavenTemplateRepository.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(MowItNow.class.getName());
 
 	public static void main(String[] args) {
 		String filePath = (args.length > 0) ? args[0] : DEFAULT_FILE_PATH;

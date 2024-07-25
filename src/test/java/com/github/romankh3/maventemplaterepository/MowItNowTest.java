@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit-level testing for {@link MavenTemplateRepository} object.
+ * Unit-level testing for {@link MowItNow} object.
  */
-public class MavenTemplateRepositoryTest {
-	private static final Logger LOGGER = Logger.getLogger(MavenTemplateRepository.class.getName());
+public class MowItNowTest {
+	private static final Logger LOGGER = Logger.getLogger(MowItNow.class.getName());
 
 	/**
 	 * Test the normal processing of lawnmowers with given instructions.
@@ -20,7 +20,7 @@ public class MavenTemplateRepositoryTest {
 	void testProcess() {
 		List<String> inputLines = List.of("5 5", "1 2 N", "GAGAGAGAA", "3 3 E", "AADAADADDA");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals("1 3 N", output.get(0));
 		assertEquals("5 1 E", output.get(1));
 	}
@@ -32,7 +32,7 @@ public class MavenTemplateRepositoryTest {
 	void testSingleMower() {
 		List<String> inputLines = List.of("5 5", "0 0 N", "AAAA");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals("0 4 N", output.get(0));
 	}
 
@@ -43,7 +43,7 @@ public class MavenTemplateRepositoryTest {
 	void testDifferentStartPositions() {
 		List<String> inputLines = List.of("5 5", "2 2 S", "A", "4 4 W", "A");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals("2 1 S", output.get(0));
 		assertEquals("3 4 W", output.get(1));
 	}
@@ -55,7 +55,7 @@ public class MavenTemplateRepositoryTest {
 	void testDifferentDirections() {
 		List<String> inputLines = List.of("5 5", "1 1 E", "A", "3 3 W", "A");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals("2 1 E", output.get(0));
 		assertEquals("2 3 W", output.get(1));
 	}
@@ -67,7 +67,7 @@ public class MavenTemplateRepositoryTest {
 	void testEmptyInstructions() {
 		List<String> inputLines = List.of("5 5", "1 2 N", "", "3 3 E", "");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 
 		// Make sure mower positions have not changed
 		assertEquals("1 2 N", output.get(0));
@@ -89,7 +89,7 @@ public class MavenTemplateRepositoryTest {
 	void testOutOfBoundsMovements() {
 		List<String> inputLines = List.of("5 5", "0 0 S", "AAA", "5 5 N", "AAA");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals("0 0 S", output.get(0)); // Cannot exceed lower limit
 		assertEquals("5 5 N", output.get(1)); // Impossible to leave upper limit
 	}
@@ -102,7 +102,7 @@ public class MavenTemplateRepositoryTest {
 		List<String> inputLines = List.of("5 A", // Invalid lawn dimensions
 				"1 2 N", "GAGAGAGAA", "3 3 E", "AADAADADDA");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals(0, output.size()); // Should not process any mowers
 	}
 
@@ -113,7 +113,7 @@ public class MavenTemplateRepositoryTest {
 	void testMixedValidInvalidData() {
 		List<String> inputLines = List.of("5 5", "1 2 N", "GAGAGAGAA", "invalid data", "3 3 E", "AADAADADDA");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals("1 3 N", output.get(0)); // Valid mower data
 		assertEquals("5 1 E", output.get(1)); // Valid mower data
 	}
@@ -125,7 +125,7 @@ public class MavenTemplateRepositoryTest {
 	void testNoMowerData() {
 		List<String> inputLines = List.of("5 5");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 		assertEquals(0, output.size()); // Should not process any mowers
 	}
 
@@ -137,7 +137,7 @@ public class MavenTemplateRepositoryTest {
 	void testCollisionDetection() {
 		List<String> inputLines = List.of("5 5", "1 2 N", "AAAA", "1 3 N", "AAAA");
 
-		List<String> output = MavenTemplateRepository.process(inputLines);
+		List<String> output = MowItNow.process(inputLines);
 
 		// Check that a collision is detected
 		assertEquals(2, output.size()); // There should be two outputs
